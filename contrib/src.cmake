@@ -150,20 +150,26 @@ if (SOLOUD_BACKEND_NULL)
 endif()
 
 if (SOLOUD_BACKEND_SDL2)
-	find_package (SDL2 REQUIRED)
-	include_directories (${SDL2_INCLUDE_DIR})
-	add_definitions (-DWITH_SDL2_STATIC)
+	if(TARGET SDL2::SDL2)
+		set (LINK_LIBRARIES
+			${LINK_LIBRARIES}
+			SDL2::SDL2
+			#SDL2::SDL2main
+		)
+	elseif()
+		find_package (SDL2 REQUIRED)
+		include_directories (${SDL2_INCLUDE_DIR})
+		set (LINK_LIBRARIES
+			${LINK_LIBRARIES}
+			${SDL2_LIBRARY}
+		)
+	endif()
 
+	add_definitions (-DWITH_SDL2_STATIC)
 	set (BACKENDS_SOURCES
 		${BACKENDS_SOURCES}
 		${BACKENDS_PATH}/sdl2_static/soloud_sdl2_static.cpp
 	)
-
-	set (LINK_LIBRARIES
-		${LINK_LIBRARIES}
-		${SDL2_LIBRARY}
-	)
-
 endif()
 
 if (SOLOUD_BACKEND_COREAUDIO)
