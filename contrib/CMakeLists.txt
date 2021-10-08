@@ -29,4 +29,4 @@ IF (SOLOUD_BUILD_DEMOS)
 	include (demos.cmake)
 endif ()
 
-include (InstallExport)
+#include (InstallExport)
